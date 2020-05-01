@@ -3,17 +3,29 @@
 import argparse
 import os
 import time
+import json
 
 import requests
 from flickrapi import FlickrAPI
+from PIL import Image, ImageDraw
 
-key = ''  # Flickr API key https://www.flickr.com/services/apps/create/apply
-secret = ''
+with open('creds.json') as f:
+  data = json.load(f)
 
+key = data['key']
+secret = data['secret']
 
 def download_uri(uri, dir='./'):
     with open(dir + uri.split('/')[-1], 'wb') as f:
         f.write(requests.get(uri, stream=True).content)
+    #Compress the image
+    im = Image.open(dir + uri.split('/')[-1]).convert("RGB")
+    basewidth = 512
+    wpercent = (basewidth/float(im.size[0]))
+    hsize = int((float(im.size[1])*float(wpercent)))
+    im_out = dir + uri.split('/')[-1]
+    im = im.resize((basewidth,hsize), Image.ANTIALIAS)
+    im.save(im_out,optimize=True,quality=42) 
 
 
 def get_urls(search='honeybees on flowers', n=10, download=False):
@@ -28,7 +40,7 @@ def get_urls(search='honeybees on flowers', n=10, download=False):
         dir = os.getcwd() + os.sep + 'images' + os.sep + search.replace(' ', '_') + os.sep  # save directory
         if not os.path.exists(dir):
             os.makedirs(dir)
-
+    print("Downloading "+str(n)+" images of "+search)
     urls = []
     for i, photo in enumerate(photos):
         if i == n:
@@ -59,7 +71,7 @@ def get_urls(search='honeybees on flowers', n=10, download=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--search', type=str, default='honeybees on flowers', help='flickr search term')
-    parser.add_argument('--n', type=int, default=10, help='number of images')
+    parser.add_argument('--n', type=int, default=1000, help='number of images')
     parser.add_argument('--download', action='store_true', help='download images')
     opt = parser.parse_args()
 
