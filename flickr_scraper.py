@@ -15,17 +15,19 @@ with open('creds.json') as f:
 key = data['key']
 secret = data['secret']
 
+basewidth = 512
+imgQuality = 42
+
 def download_uri(uri, dir='./'):
     with open(dir + uri.split('/')[-1], 'wb') as f:
         f.write(requests.get(uri, stream=True).content)
     #Compress the image
     im = Image.open(dir + uri.split('/')[-1]).convert("RGB")
-    basewidth = 512
     wpercent = (basewidth/float(im.size[0]))
     hsize = int((float(im.size[1])*float(wpercent)))
     im_out = dir + uri.split('/')[-1]
     im = im.resize((basewidth,hsize), Image.ANTIALIAS)
-    im.save(im_out,optimize=True,quality=42) 
+    im.save(im_out,optimize=True,quality=imgQuality) 
 
 
 def get_urls(search='honeybees on flowers', n=10, download=False):
