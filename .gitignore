@@ -19,6 +19,9 @@
 *.avi
 *.data
 *.gif
+*.zip
+
+desktop.ini
 
 *.cfg
 !cfg/yolov3*.cfg
