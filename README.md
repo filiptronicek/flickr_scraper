@@ -1,13 +1,12 @@
- <img src="https://storage.googleapis.com/ultralytics/logo/logoname1000.png" width="160">
-
 # Introduction
 
-This directory contains Flickr image-scraping software developed by Ultralytics LLC, and **is freely available for redistribution under the GPL-3.0 license**. For more information please visit https://www.ultralytics.com.
+This is a fork of [ultralytics/flickr_scraper](https://github.com/ultralytics/flickr_scraper), which helps with downloading images for datasets.
 
 # Requirements
 
 Python 3.7 or later with all of the `pip install -U -r requirements.txt` packages including:
 - `flickrapi`
+- `pillow`
 
 # Install
 ```bash
@@ -20,10 +19,13 @@ pip install -U -r requirements.txt
 
 1. Request a Flickr API key: https://www.flickr.com/services/apps/create/apply
 
-2. Write your API key and secret in `flickr_scraper.py` L9-L10:
-```python
-key = ''
-secret = ''
+2. Write your API key and secret in `creds.json` L9-L10:
+```json
+{ 
+    "key": "key",
+    "secret": "secret"
+}
+
 ```
 
 3. Search for up to `n` images, and optionally `--download`. URLs are printed to screen and downloaded images are saved in `flickr_scraper/images`. Note that image downloads may be subject to Flickr rate limits and other limitations. See https://www.flickr.com/services/developer/api/ for full information.
