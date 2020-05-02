@@ -6,6 +6,8 @@ Image.MAX_IMAGE_PIXELS = 93312000000
 
 subfolders = [ f.path for f in scandir("images/") if f.is_dir() ]
 
+corrupted = 0
+
 for folder in subfolders:
     print("Verify "+folder)
     for filename in tqdm(listdir(folder)):
@@ -16,3 +18,5 @@ for folder in subfolders:
             except (IOError, SyntaxError) as e:
                 print("removing", folder+"/"+filename)
                 remove(''+folder+"/"+filename)
+                corrupted += 1
+print("Deleted "+str(corrupted)+" images")
