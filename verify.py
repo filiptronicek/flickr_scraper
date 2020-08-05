@@ -9,7 +9,7 @@ subfolders = [ f.path for f in scandir("images/") if f.is_dir() ]
 corrupted = 0
 
 for folder in subfolders:
-    print("Verify "+folder)
+    print("Verify", folder)
     for filename in tqdm(listdir(folder)):
         if filename.endswith('.jpg'):
             try:
@@ -19,4 +19,4 @@ for folder in subfolders:
                 print("removing", folder+"/"+filename)
                 remove(''+folder+"/"+filename)
                 corrupted += 1
-print("Deleted "+str(corrupted)+" images")
+print(f"Deleted { str(corrupted) } images")
